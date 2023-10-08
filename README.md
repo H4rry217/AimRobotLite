@@ -13,6 +13,8 @@ ARL中的大部分功能都是允许拓展&插拔，意味者如果使用者对�
 
 ARL不仅提供了基础的事件机制，还提供了包括指令、本地数据管理等其它方面的支持，能方遍开发者对ARL进行二次拓展。
 
+*ARL采用 .NET 6进行开发，所以部分电脑运行将会报错，按照弹出提示下载运行环境即可解决问题*
+
 <p> 
   <a href="mailto:hcilnete@gmail.com"><img src="https://img.shields.io/badge/Email-hcilnete@gmail.com-blue" height="16px" /> </a>
   <a href="https://github.com/H4rry217/AimRobotLite/releases"><img src="https://img.shields.io/badge/Release下载-AimRobotLite-blue" height="16px" /> </a>
