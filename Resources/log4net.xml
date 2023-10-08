@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<log4net>
+  <root>
+    <level value="DEBUG" />
+    <appender-ref ref="ConsoleAppender" />
+    <appender-ref ref="FileAppender" />
+    <appender-ref ref="WinFormConsoleAppender" />
+  </root>
+
+  <!-- 控制台输出配置 -->
+  <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date %-5level ---asds [%thread] [%logger] %message%newline" />
+    </layout>
+  </appender>
+
+  <!-- winform输出 -->
+  <appender name="WinFormConsoleAppender" type="AimRobotLite.common.logger.FormOutputAppender, AimRobotLite">
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date %-5level --- [%thread] [%logger] %message%newline" />
+    </layout>
+  </appender>
+
+
+  <!-- 文件输出配置 -->
+  <appender name="FileAppender" type="log4net.Appender.RollingFileAppender">
+    <file value="logs\\" />
+    <appendToFile value="true" />
+    <rollingStyle value="Date" />
+    <datePattern value="yyyyMMdd'.log'" />
+    <staticLogFileName value="false" />
+    <layout type="log4net.Layout.PatternLayout">
+      <conversionPattern value="%date %-5level --- [%thread] [%logger] %message%newline" />
+    </layout>
+  </appender>
+
+</log4net>
