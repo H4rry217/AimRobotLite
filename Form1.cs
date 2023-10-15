@@ -25,7 +25,7 @@ namespace AimRobotLite {
         private static readonly ILog log = LogManager.GetLogger(typeof(Form1));
 
         private void button1_Click(object sender, EventArgs e) {
-            if (!Program.IsDebug()) return;
+            //var playerId = Robot.GetInstance().GetGameContext().GetPlayerId("RES_RIVER-214");
 
         }
 
@@ -267,6 +267,14 @@ namespace AimRobotLite {
                     );
                 textBox12.Text = "";
             }
+        }
+
+        private void button12_Click(object sender, EventArgs e) {
+            Robot.GetInstance().KickPlayer(textBox7.Text);
+        }
+
+        private void button13_Click(object sender, EventArgs e) {
+            Robot.GetInstance().UnBanPlayer(textBox7.Text);
         }
     }
 }

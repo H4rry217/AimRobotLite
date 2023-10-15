@@ -8,7 +8,7 @@ using log4net;
 
 namespace AimRobotLite
 {
-    public class AimRobotLite : Robot{
+    public class AimRobotLite : Robot {
 
         private RobotLogger logger;
 
@@ -92,13 +92,7 @@ namespace AimRobotLite
 
         public override void BanPlayer(string name) {
             var playerId = GameContext.GetPlayerId(name);
-
-            if (playerId != 0) {
-                BanPlayerPacket packet = new BanPlayerPacket();
-                packet.playerId = playerId;
-                RobotConnection.SendPacket(packet);
-            }
-           
+            if (playerId != 0) BanPlayer(playerId);
         }
 
         public override void BanPlayer(string name, string reason){
@@ -113,6 +107,43 @@ namespace AimRobotLite
                 }
 
                 BanPlayer(playerId);
+            }
+        }
+
+        public override void UnBanPlayer(long playerId) {
+            UnBanPlayerPacket packet = new UnBanPlayerPacket();
+            packet.playerId = playerId;
+            RobotConnection.SendPacket(packet);
+        }
+
+        public override void UnBanPlayer(string name) {
+            GetGameContext().GetPlayerStatInfo(name, (stat) => {
+                if (stat.id != 0) UnBanPlayer(stat.id);
+            });
+        }
+
+        public override void KickPlayer(long playerId){
+            BanPlayer(playerId);
+            UnBanPlayer(playerId);
+        }
+
+        public override void KickPlayer(string name) {
+            var playerId = GameContext.GetPlayerId(name);
+            if (playerId != 0) KickPlayer(playerId);
+        }
+
+        public override void KickPlayer(string name, string reason){
+            var playerId = GameContext.GetPlayerId(name);
+            if (playerId != 0){
+
+                if (reason != null && !string.Empty.Equals(reason)){
+                    SendChat(
+                       $"[{name}] will get banned by robot, reason: {reason}\n" +
+                       $"[{name}] 将会被踢出游戏，原因：{reason}"
+                       );
+                }
+
+                KickPlayer(playerId);
             }
         }
 

@@ -67,6 +67,8 @@ namespace AimRobotLite {
             label9 = new Label();
             button6 = new Button();
             tabPage1 = new TabPage();
+            button13 = new Button();
+            button12 = new Button();
             checkBox4 = new CheckBox();
             checkBox2 = new CheckBox();
             checkBox1 = new CheckBox();
@@ -497,6 +499,8 @@ namespace AimRobotLite {
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(button13);
+            tabPage1.Controls.Add(button12);
             tabPage1.Controls.Add(checkBox4);
             tabPage1.Controls.Add(checkBox2);
             tabPage1.Controls.Add(checkBox1);
@@ -525,10 +529,30 @@ namespace AimRobotLite {
             tabPage1.Text = "基础功能";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button13
+            // 
+            button13.Location = new Point(151, 44);
+            button13.Name = "button13";
+            button13.Size = new Size(64, 23);
+            button13.TabIndex = 36;
+            button13.Text = "解除屏蔽";
+            button13.UseVisualStyleBackColor = true;
+            button13.Click += button13_Click;
+            // 
+            // button12
+            // 
+            button12.Location = new Point(81, 44);
+            button12.Name = "button12";
+            button12.Size = new Size(64, 23);
+            button12.TabIndex = 35;
+            button12.Text = "踢出";
+            button12.UseVisualStyleBackColor = true;
+            button12.Click += button12_Click;
+            // 
             // checkBox4
             // 
             checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(298, 216);
+            checkBox4.Location = new Point(298, 244);
             checkBox4.Name = "checkBox4";
             checkBox4.Size = new Size(63, 21);
             checkBox4.TabIndex = 34;
@@ -538,7 +562,7 @@ namespace AimRobotLite {
             // checkBox2
             // 
             checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(298, 185);
+            checkBox2.Location = new Point(298, 213);
             checkBox2.Name = "checkBox2";
             checkBox2.Size = new Size(111, 21);
             checkBox2.TabIndex = 32;
@@ -548,7 +572,7 @@ namespace AimRobotLite {
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(298, 154);
+            checkBox1.Location = new Point(298, 182);
             checkBox1.Margin = new Padding(4);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(75, 21);
@@ -569,15 +593,15 @@ namespace AimRobotLite {
             textBox7.Location = new Point(10, 13);
             textBox7.Margin = new Padding(4);
             textBox7.Name = "textBox7";
-            textBox7.Size = new Size(116, 23);
+            textBox7.Size = new Size(205, 23);
             textBox7.TabIndex = 17;
             // 
             // textBox8
             // 
-            textBox8.Location = new Point(10, 51);
+            textBox8.Location = new Point(10, 87);
             textBox8.Margin = new Padding(4);
             textBox8.Name = "textBox8";
-            textBox8.Size = new Size(116, 23);
+            textBox8.Size = new Size(205, 23);
             textBox8.TabIndex = 18;
             // 
             // textBox10
@@ -598,7 +622,7 @@ namespace AimRobotLite {
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(10, 245);
+            textBox4.Location = new Point(10, 273);
             textBox4.Margin = new Padding(4);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(241, 23);
@@ -606,7 +630,7 @@ namespace AimRobotLite {
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(10, 152);
+            textBox1.Location = new Point(10, 180);
             textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(241, 23);
@@ -614,7 +638,7 @@ namespace AimRobotLite {
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(10, 183);
+            textBox2.Location = new Point(10, 211);
             textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(241, 23);
@@ -622,7 +646,7 @@ namespace AimRobotLite {
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(10, 214);
+            textBox3.Location = new Point(10, 242);
             textBox3.Margin = new Padding(4);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(241, 23);
@@ -630,10 +654,10 @@ namespace AimRobotLite {
             // 
             // button5
             // 
-            button5.Location = new Point(133, 51);
+            button5.Location = new Point(7, 118);
             button5.Margin = new Padding(4);
             button5.Name = "button5";
-            button5.Size = new Size(83, 23);
+            button5.Size = new Size(208, 23);
             button5.TabIndex = 20;
             button5.Text = "喊话";
             button5.UseVisualStyleBackColor = true;
@@ -641,12 +665,12 @@ namespace AimRobotLite {
             // 
             // button4
             // 
-            button4.Location = new Point(133, 13);
+            button4.Location = new Point(10, 44);
             button4.Margin = new Padding(4);
             button4.Name = "button4";
-            button4.Size = new Size(83, 23);
+            button4.Size = new Size(64, 23);
             button4.TabIndex = 19;
-            button4.Text = "屏蔽玩家";
+            button4.Text = "屏蔽";
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
@@ -663,7 +687,7 @@ namespace AimRobotLite {
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(8, 131);
+            label1.Location = new Point(8, 159);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(56, 17);
@@ -825,6 +849,8 @@ namespace AimRobotLite {
         private Button button10;
         private Button button11;
         private TextBox textBox12;
+        private Button button12;
+        private Button button13;
     }
 }
 

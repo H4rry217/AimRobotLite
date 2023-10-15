@@ -71,9 +71,9 @@ namespace AimRobotLite.service.robotplugin
                 } else {
                     Robot.GetInstance().SendChat(
                         $"[{playerEvent.killerName}] will get banned by robot, reason: forbidden weapon Type 2A\n" +
-                        $"[{playerEvent.killerName}] 将会被屏蔽出游戏，原因：使用禁止的武器（二式冲锋枪）"
+                        $"[{playerEvent.killerName}] 将会被踢出游戏，原因：使用禁止的武器（二式冲锋枪）"
                         );
-                    Robot.GetInstance().BanPlayer(playerEvent.killerName);
+                    Robot.GetInstance().KickPlayer(playerEvent.killerName);
                 }
             }
         }

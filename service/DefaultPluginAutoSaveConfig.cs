@@ -65,5 +65,12 @@ namespace AimRobotLite.service {
             IncreaseWriteCount(() => this.iniData[pluginBase.GetPluginName()][key] = value);
         }
 
+        public override int GetSize(string key) {
+            return this.iniData[pluginBase.GetPluginName()].Count;
+        }
+
+        public override bool hasData(string key) {
+            return this.iniData[pluginBase.GetPluginName()].ContainsKey(key);
+        }
     }
 }
