@@ -109,6 +109,7 @@ namespace AimRobotLite.plugin{
                     foreach (var kv in paramMap) logBuilder.Append($"\"{kv.Key}\": \"{kv.Value}\"").Append("   ");
                 }
 
+                Robot.GetInstance().GetLogger().Debug(content);
                 Robot.GetInstance().GetLogger().Debug(logBuilder.ToString());
 
                 CallCommmand(keyword, commandData);

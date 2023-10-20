@@ -2,6 +2,7 @@
 using AimRobot.Api.plugin;
 using AimRobotLite.network;
 using AimRobotLite.network.opacket;
+using AimRobotLite.network.opakcet;
 using AimRobotLite.plugin;
 using AimRobotLite.service;
 using log4net;
@@ -151,5 +152,10 @@ namespace AimRobotLite
             return GameContext.GetCurrentPlayerName() != null && GameContext.GetCurrentPlayerName().Length > 0;
         }
 
+        public override void JoinGame(long gameId) {
+            JoinGamePacket packet = new JoinGamePacket();
+            packet.gameId = gameId;
+            RobotConnection.SendPacket(packet);
+        }
     }
 }

@@ -72,5 +72,17 @@ namespace AimRobotLite.service {
         public override bool hasData(string key) {
             return this.iniData[pluginBase.GetPluginName()].ContainsKey(key);
         }
+
+        public override string[] GetKeys() {
+            List<string> keysList = new List<string>();
+
+            foreach (SectionData section in iniData.Sections) {
+                foreach (KeyData key in section.Keys) {
+                    keysList.Add(key.KeyName);
+                }
+            }
+
+            return keysList.ToArray();
+        }
     }
 }

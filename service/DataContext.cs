@@ -14,6 +14,8 @@ using static AimRobotLite.service.BfbanAntiCheat;
 namespace AimRobotLite.service {
     public class DataContext : IGameContext {
 
+        private bool RunningState = true;
+
         private readonly ILog log = LogManager.GetLogger(typeof(DataContext));
 
         private Dictionary<long, bool> PlayerBfbanStatusDict = new Dictionary<long, bool>();
@@ -220,8 +222,8 @@ namespace AimRobotLite.service {
 
         private void _CheckPlayers(object state) {
 
-            log.Warn($"Check Queue -> WaitingCheck: {PlayerWaitingCheckQueue.Count} Checking: {PlayerCheckingSet.Count}");
-            log.Warn($"FairPlayer : {FairPlayers.Count} AbnormalPlayers: {AbnormalPlayers.Count}");
+            log.Debug($"Check Queue -> WaitingCheck: {PlayerWaitingCheckQueue.Count} Checking: {PlayerCheckingSet.Count}");
+            log.Debug($"FairPlayer : {FairPlayers.Count} AbnormalPlayers: {AbnormalPlayers.Count}");
 
             //检测等待结果队列中的玩家，是否结果已出
             //ISet<long> playerIds = new HashSet<long>();
@@ -286,7 +288,7 @@ namespace AimRobotLite.service {
 
         private void _QueryInterval(object state) {
 
-            log.Warn($"Query Queue -> Name: {QueryStatByNameQueue.Count} Pid: {QueryStatByPidQueue.Count} Bfban: {QueryBfbanQueue.Count}");
+            log.Debug($"Query Queue -> Name: {QueryStatByNameQueue.Count} Pid: {QueryStatByPidQueue.Count} Bfban: {QueryBfbanQueue.Count}");
 
             var statPerLimit = 8;
             while (QueryStatByNameQueue.Count > 0 && statPerLimit > 0) {
@@ -416,7 +418,7 @@ namespace AimRobotLite.service {
 
         private void _GameStatInterval(object state) {
             if (CurrentGameId != 0) {
-                log.Warn("Try Get Room Data to check");
+                log.Debug("Try Get Room Data to check");
                 DataApi.GetGameRoomData(CurrentGameId, (gameRoom) => {
                     var list = ((GameRoom)gameRoom).GetPlayers();
                     foreach (var player in list) {
@@ -508,5 +510,38 @@ namespace AimRobotLite.service {
 
         }
 
+        //private System.Threading.Timer _QueryTimer;
+        //private System.Threading.Timer _CheckTimer;
+        //private System.Threading.Timer _GameRoomTimer;
+        //private System.Threading.Timer _ContextTimer;
+        //private System.Threading.Timer _BroadcastTimer;
+
+        public void SetEnable(bool state) {
+            lock (this) {
+                if (state && !RunningState) {
+                    _QueryTimer.Change(0, 5 * 1000);
+                    _CheckTimer.Change(0, 20 * 1000);
+                    _GameRoomTimer.Change(0, 15 * 1000);
+                    _ContextTimer.Change(0, 60 * 1000);
+                    _BroadcastTimer.Change(0, 45 * 1000);
+
+                    Robot.GetInstance().GetLogger().Warn("Context 启动");
+                } else if(!state && RunningState){
+                    _QueryTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    _CheckTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    _GameRoomTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    _ContextTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    _BroadcastTimer.Change(Timeout.Infinite, Timeout.Infinite);
+
+                    Robot.GetInstance().GetLogger().Warn("Context 停止");
+                }
+
+                RunningState = state;
+            }
+        }
+
+        public bool IsEnable() {
+            return RunningState;
+        }
     }
 }
