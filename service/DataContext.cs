@@ -296,8 +296,12 @@ namespace AimRobotLite.service {
 
                 if (PlayerNameMapper.ContainsKey(queryName)) {
                     if (QueryStatByNameCallbacks.TryGetValue(queryName, out StatCallBack queryCallback)) {
-                        queryCallback(PlayerInfoDict[PlayerNameMapper[queryName]]);
-                        QueryStatByNameCallbacks.Remove(queryName);
+
+                        if (PlayerInfoDict.ContainsKey(PlayerNameMapper[queryName])) {
+                            queryCallback(PlayerInfoDict[PlayerNameMapper[queryName]]);
+                            QueryStatByNameCallbacks.Remove(queryName);
+                        }
+                        
                     }
                 } else {
                     statPerLimit--;
@@ -478,7 +482,10 @@ namespace AimRobotLite.service {
 
         public void GetPlayerStatInfo(string playerName, StatCallBack callBack) {
             if (PlayerNameMapper.ContainsKey(playerName)) {
-                callBack(PlayerInfoDict[PlayerNameMapper[playerName]]);
+                if (PlayerInfoDict.ContainsKey(PlayerNameMapper[playerName])) {
+                    callBack(PlayerInfoDict[PlayerNameMapper[playerName]]);
+                }
+                
                 return;
             }
 
@@ -509,12 +516,6 @@ namespace AimRobotLite.service {
             }
 
         }
-
-        //private System.Threading.Timer _QueryTimer;
-        //private System.Threading.Timer _CheckTimer;
-        //private System.Threading.Timer _GameRoomTimer;
-        //private System.Threading.Timer _ContextTimer;
-        //private System.Threading.Timer _BroadcastTimer;
 
         public void SetEnable(bool state) {
             lock (this) {

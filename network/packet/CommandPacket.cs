@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AimRobotLite.network.packet {
-    class BanPlayerByNamePacket : DataPacket {
+    public class CommandPacket : DataPacket {
 
-        public string playerName;
-
-        public string reason;
+        public string command;
 
         public override void Decode() {
             Get(1);
 
-            playerName = GetString();
-            reason = GetString();
+            command = GetString();
         }
 
         public override void Encode() {
@@ -23,7 +21,7 @@ namespace AimRobotLite.network.packet {
         }
 
         public override byte GetPacketId() {
-            return Protocol.PACKET_BAN_BY_NAME;
+            return Protocol.PACKET_COMMAND;
         }
 
     }

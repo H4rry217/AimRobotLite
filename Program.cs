@@ -1,3 +1,4 @@
+using AimRobot.Api;
 using AimRobotLite.Properties;
 using log4net.Config;
 using System.Xml;
@@ -27,6 +28,10 @@ namespace AimRobotLite {
             Winform = new Form1();
 
             AimRobotLite.run();
+
+            Application.ThreadException += new ThreadExceptionEventHandler(ThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
+
             Application.Run(Winform);
         }
 
@@ -38,6 +43,14 @@ namespace AimRobotLite {
 
         public static bool IsDebug() {
             return DEBUG_ENABLE;
+        }
+
+        private static void UnhandledException(object sender, UnhandledExceptionEventArgs e) {
+            MessageBox.Show(e.ExceptionObject.ToString());
+        }
+
+        private static void ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
+            MessageBox.Show(e.Exception.ToString());
         }
 
     }

@@ -35,7 +35,7 @@ namespace AimRobotLite.network {
 
         public void WebSocketOnError(object sender, EventArgs e) {
             log.Error(sender);
-            log.Error(e);
+            log.Error(((WebSocketSharp.ErrorEventArgs)e).Exception);
         }
 
         public void WebSocketOnBinary(object sender, MessageEventArgs e) {
@@ -73,6 +73,10 @@ namespace AimRobotLite.network {
                 case Protocol.PACKET_BAN_BY_NAME:
                     var reason1 = ((BanPlayerByNamePacket)packet).reason;
                     Robot.GetInstance().BanPlayer(((BanPlayerByNamePacket)packet).playerName, reason1);
+                    break;
+                case Protocol.PACKET_COMMAND:
+                    var cmd = ((CommandPacket)packet).command;
+                    Robot.GetInstance().GetPluginManager().CheckCommand(null, cmd);
                     break;
             }
         }
