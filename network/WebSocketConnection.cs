@@ -62,6 +62,17 @@ namespace AimRobotLite.network {
             if(WebSocketClient != null) WebSocketClient.Close();
         }
 
+        public void SendRemote(DataPacket pk) {
+            try {
+                if (IsConnectionAlive()) {
+                    pk.Encode();
+                    WebSocketClient.Send(pk.GetBuffer());
+                }
+            } catch(Exception ex) {
+                log.Error(ex);
+            }
+        }
+
         private static void handlePacket(DataPacket packet) {
             switch (packet.GetPacketId()) {
                 case Protocol.PACKET_SEND_CHAT:

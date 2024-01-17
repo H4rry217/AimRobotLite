@@ -4,6 +4,7 @@ using AimRobot.Api.command;
 using AimRobot.Api.events.ev;
 using AimRobot.Api.plugin;
 using AimRobotLite.common;
+using AimRobotLite.network.packet;
 using AimRobotLite.plugin;
 using AimRobotLite.Properties;
 using AimRobotLite.service;
@@ -25,8 +26,19 @@ namespace AimRobotLite {
         private static readonly ILog log = LogManager.GetLogger(typeof(Form1));
 
         private void button1_Click(object sender, EventArgs e) {
-            //var playerId = Robot.GetInstance().GetGameContext().GetPlayerId("RES_RIVER-214");
-
+            //Robot.GetInstance().JoinGame(long.Parse(textBox7.Text));
+            //ChatEventPacket pk = new ChatEventPacket();
+            //pk.ev = new PlayerChatEvent();
+            //pk.ev.message = string.Empty;
+            //pk.ev.speaker = textBox7.Text;
+            DeathEventPacket pk = new DeathEventPacket();
+            pk.ev = new PlayerDeathEvent();
+            pk.ev.killerPlatoon = string.Empty;
+            pk.ev.killerName = "Ultra_Robot1";
+            pk.ev.killerBy = string.Empty;
+            pk.ev.playerPlatoon = string.Empty;
+            pk.ev.playerName = "Shallow3nk";
+            ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
         }
 
         private void SettingInit() {

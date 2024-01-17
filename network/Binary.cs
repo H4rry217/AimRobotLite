@@ -26,5 +26,12 @@ namespace AimRobotLite.network {
                 ((bytes[7] & 0xff)));
         }
 
+        public static byte[] ShortToBytes(short s) {
+            return new byte[2] { 
+                (byte)((s >> 8) & 0xff),
+                (byte)(s & 0xff)
+            };
+        }
+
     }
 }

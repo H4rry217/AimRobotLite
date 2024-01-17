@@ -50,7 +50,7 @@ namespace AimRobotLite {
         }
 
         private static void ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
-            MessageBox.Show(e.Exception.ToString());
+            Robot.GetInstance().GetLogger().Error(e.Exception.ToString());
         }
 
     }

@@ -67,6 +67,34 @@ namespace AimRobotLite.network {
             return this.count;
         }
 
+        private void EnsureCapacity(int minCapacity) {
+            // overflow-conscious code
+            if (minCapacity - this.buffer.Length > 0) {
+                Grow(minCapacity);
+            }
+        }
+
+        private void Grow(int minCapacity) {
+            int oldCapacity = this.buffer.Length;
+            int newCapacity = oldCapacity << 1;
+
+            if (newCapacity - minCapacity < 0) {
+                newCapacity = minCapacity;
+            }
+
+            if (newCapacity - MAX_ARRAY_SIZE > 0) {
+                newCapacity = HugeCapacity(minCapacity);
+            }
+
+            Array.Resize(ref buffer, newCapacity);
+        }
+
+        private static int HugeCapacity(int minCapacity) {
+            if (minCapacity < 0) throw new OutOfMemoryException();
+
+            return (minCapacity > MAX_ARRAY_SIZE) ? int.MaxValue : MAX_ARRAY_SIZE;
+        }
+
         public byte[] Get() {
             return this.Get(this.count - this.offset);
         }
@@ -101,32 +129,29 @@ namespace AimRobotLite.network {
             this.Put(new byte[] { b });
         }
 
-        private void EnsureCapacity(int minCapacity) {
-            // overflow-conscious code
-            if (minCapacity - this.buffer.Length > 0) {
-                Grow(minCapacity);
-            }
+        public void PutShort(short s) {
+            this.Put(Binary.ShortToBytes(s));
         }
 
-        private void Grow(int minCapacity) {
-            int oldCapacity = this.buffer.Length;
-            int newCapacity = oldCapacity << 1;
+        public void PutString(string s, Encoding encoding) {
+            byte[] bytes = encoding.GetBytes(s);
+            short len = (short)bytes.Length;
 
-            if (newCapacity - minCapacity < 0) {
-                newCapacity = minCapacity;
+            PutShort(len);
+
+            if (bytes.Length > (int)len) {
+                byte[] newBytes = new byte[len];
+                Array.Copy(bytes, newBytes, len);
+
+                Put(newBytes);
+            } else {
+                Put(bytes);
             }
 
-            if (newCapacity - MAX_ARRAY_SIZE > 0) {
-                newCapacity = HugeCapacity(minCapacity);
-            }
-
-            Array.Resize(ref buffer, newCapacity);
         }
 
-        private static int HugeCapacity(int minCapacity) {
-            if (minCapacity < 0) throw new OutOfMemoryException();
-
-            return (minCapacity > MAX_ARRAY_SIZE) ? int.MaxValue : MAX_ARRAY_SIZE;
+        public void PutString(string s) {
+            PutString(s, Encoding.UTF8);
         }
 
         public short GetShort() {

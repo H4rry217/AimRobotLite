@@ -43,6 +43,7 @@ namespace AimRobotLite.service.robotplugin {
             instance = this;
             Robot.GetInstance().GetPluginManager().RegisterCommandListener(this, new StatCommand());
             Robot.GetInstance().GetPluginManager().RegisterCommandListener(this, new ContextCommand());
+            Robot.GetInstance().GetPluginManager().RegisterCommandListener(this, new UnBanCommand());
             Robot.GetInstance().GetPluginManager().RegisterListener(this, new AimRobotDefaultListener());
         }
     }

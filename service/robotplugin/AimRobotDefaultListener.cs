@@ -2,6 +2,7 @@
 using AimRobot.Api.events;
 using AimRobot.Api.events.ev;
 using AimRobot.Api.game;
+using AimRobotLite.network.packet;
 using EventHandler = AimRobot.Api.events.EventHandler;
 
 namespace AimRobotLite.service.robotplugin
@@ -17,6 +18,13 @@ namespace AimRobotLite.service.robotplugin
 
         [EventHandler]
         public void KillStatistic(PlayerDeathEvent playerEvent) {
+
+            /*********************************************/
+            DeathEventPacket pk = new DeathEventPacket();
+            pk.ev = playerEvent;
+            ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
+            /*********************************************/
+
 
             /*********************************************/
 
@@ -85,6 +93,14 @@ namespace AimRobotLite.service.robotplugin
 
         [EventHandler]
         public void OnAntiFloodMessage(PlayerChatEvent chatEvent) {
+
+            /*********************************************/
+            ChatEventPacket pk = new ChatEventPacket();
+            pk.ev = chatEvent;
+            ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
+            /*********************************************/
+
+
             long curTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             if (Program.Winform.checkBox4.Checked) {

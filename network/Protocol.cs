@@ -11,6 +11,9 @@ namespace AimRobotLite.network {
         public const byte PACKET_COMMAND = 0x06;
         public const byte PACKET_CONNECTION_CLOSE = 0x10;
 
+        public const byte PACKET_EVENT_DEATH = 0x0A;
+        public const byte PACKET_EVENT_CHAT = 0x0B;
+
         private static Type[] PACKET_POOL = new Type[256];
 
         static Protocol(){
@@ -19,6 +22,8 @@ namespace AimRobotLite.network {
             PACKET_POOL[PACKET_SEND_CHAT] = typeof(SendChatPacket);
             PACKET_POOL[PACKET_UNBAN] = typeof(UnBanPlayerPacket);
             PACKET_POOL[PACKET_COMMAND] = typeof(CommandPacket);
+            PACKET_POOL[PACKET_EVENT_DEATH] = typeof(DeathEventPacket);
+            PACKET_POOL[PACKET_EVENT_CHAT] = typeof(ChatEventPacket);
         }
 
         public static DataPacket GetPacket(byte pkId) {
