@@ -26,19 +26,7 @@ namespace AimRobotLite {
         private static readonly ILog log = LogManager.GetLogger(typeof(Form1));
 
         private void button1_Click(object sender, EventArgs e) {
-            //Robot.GetInstance().JoinGame(long.Parse(textBox7.Text));
-            //ChatEventPacket pk = new ChatEventPacket();
-            //pk.ev = new PlayerChatEvent();
-            //pk.ev.message = string.Empty;
-            //pk.ev.speaker = textBox7.Text;
-            DeathEventPacket pk = new DeathEventPacket();
-            pk.ev = new PlayerDeathEvent();
-            pk.ev.killerPlatoon = string.Empty;
-            pk.ev.killerName = "Ultra_Robot1";
-            pk.ev.killerBy = string.Empty;
-            pk.ev.playerPlatoon = string.Empty;
-            pk.ev.playerName = "Shallow3nk";
-            ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
+            
         }
 
         private void SettingInit() {
