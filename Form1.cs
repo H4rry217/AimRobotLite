@@ -21,12 +21,20 @@ namespace AimRobotLite {
 
             label9.Text = Resources.version;
             button1.Visible = Program.IsDebug();
+
+            System.Security.Principal.WindowsIdentity identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+            System.Security.Principal.WindowsPrincipal principal = new System.Security.Principal.WindowsPrincipal(identity);
+
+            bool admin = principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+            if (admin) {
+                Text = Text + " - [当前以管理员模式运行]";
+            }
         }
 
         private static readonly ILog log = LogManager.GetLogger(typeof(Form1));
 
         private void button1_Click(object sender, EventArgs e) {
-            
+
         }
 
         private void SettingInit() {
@@ -39,10 +47,12 @@ namespace AimRobotLite {
             checkBox1.Checked = bool.Parse(settingData["setting"]["banplayer.type2a"]);
             checkBox2.Checked = bool.Parse(settingData["setting"]["broadcast.rocketkill"]);
             checkBox4.Checked = bool.Parse(settingData["setting"]["banplayer.floodmsg"]);
+            checkBox5.Checked = bool.Parse(settingData["setting"]["antiafkkick"]);
 
             textBox9.Text = settingData["setting"]["remoteserver.wsurl"];
             textBox10.Text = settingData["setting"]["remoteserver.serverid"];
             textBox11.Text = settingData["setting"]["remoteserver.token"];
+            checkBox3.Checked = bool.Parse(settingData["setting"]["remoteserver.autoconnect"]);
 
             /*******************/
             richTextBox1.SelectionColor = Color.DarkBlue;
@@ -69,10 +79,12 @@ namespace AimRobotLite {
             settingData["setting"]["broadcast.rocketkill"] = checkBox2.Checked.ToString();
 
             settingData["setting"]["banplayer.floodmsg"] = checkBox4.Checked.ToString();
+            settingData["setting"]["antiafkkick"] = checkBox5.Checked.ToString();
 
             settingData["setting"]["remoteserver.wsurl"] = textBox9.Text;
             settingData["setting"]["remoteserver.serverid"] = textBox10.Text;
             settingData["setting"]["remoteserver.token"] = textBox11.Text;
+            settingData["setting"]["remoteserver.autoconnect"] = checkBox3.Checked.ToString();
 
             SettingFileHelper.WriteData();
             MessageBox.Show(this, "已保存设置");
@@ -89,6 +101,10 @@ namespace AimRobotLite {
             }
 
             label15.Text = ((AimRobotLite)robot).GetWebSocketConnection().IsConnectionAlive() ? "已连接" : "未连接";
+
+            if (checkBox3.Checked && !((AimRobotLite)robot).GetWebSocketConnection().IsConnectionAlive()) {
+                ((AimRobotLite)robot).GetWebSocketConnection().TryConnect();
+            }
 
             /********************/
 

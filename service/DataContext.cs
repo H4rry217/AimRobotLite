@@ -5,8 +5,10 @@ using AimRobotLite.network;
 using AimRobotLite.network.opacket;
 using AimRobotLite.Properties;
 using AimRobotLite.service.robotplugin;
+using AimRobotLite.utils;
 using log4net;
 using System.Net.Sockets;
+using System.Reflection.Metadata;
 using System.Text.Json;
 using static AimRobot.Api.IGameContext;
 using static AimRobotLite.service.BfbanAntiCheat;
@@ -432,6 +434,10 @@ namespace AimRobotLite.service {
                 });
             }
 
+            if (Program.Winform.checkBox5.Checked) {
+                IntPtr hwnd = GameWindow.GetBfvHandle();
+                WindowsUtils.SendMessage(hwnd, WindowsUtils.WM_MOUSEMOVE, 0, 0);
+            }
         }
 
         public void ClearCacheData() {

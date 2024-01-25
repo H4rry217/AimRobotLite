@@ -67,6 +67,8 @@ namespace AimRobotLite {
             label9 = new Label();
             button6 = new Button();
             tabPage1 = new TabPage();
+            checkBox5 = new CheckBox();
+            checkBox3 = new CheckBox();
             button13 = new Button();
             button12 = new Button();
             checkBox4 = new CheckBox();
@@ -499,6 +501,8 @@ namespace AimRobotLite {
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(checkBox5);
+            tabPage1.Controls.Add(checkBox3);
             tabPage1.Controls.Add(button13);
             tabPage1.Controls.Add(button12);
             tabPage1.Controls.Add(checkBox4);
@@ -528,6 +532,26 @@ namespace AimRobotLite {
             tabPage1.TabIndex = 0;
             tabPage1.Text = "基础功能";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            checkBox5.AutoSize = true;
+            checkBox5.Location = new Point(298, 275);
+            checkBox5.Name = "checkBox5";
+            checkBox5.Size = new Size(87, 21);
+            checkBox5.TabIndex = 38;
+            checkBox5.Text = "防挂机踢出";
+            checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            checkBox3.AutoSize = true;
+            checkBox3.Location = new Point(11, 443);
+            checkBox3.Name = "checkBox3";
+            checkBox3.Size = new Size(75, 21);
+            checkBox3.TabIndex = 37;
+            checkBox3.Text = "自动连接";
+            checkBox3.UseVisualStyleBackColor = true;
             // 
             // button13
             // 
@@ -851,6 +875,8 @@ namespace AimRobotLite {
         private TextBox textBox12;
         private Button button12;
         private Button button13;
+        private CheckBox checkBox3;
+        public CheckBox checkBox5;
     }
 }
 

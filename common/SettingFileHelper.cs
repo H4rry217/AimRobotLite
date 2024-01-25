@@ -30,10 +30,12 @@ namespace AimRobotLite.common {
 
             if (setting["banplayer.type2a"] == null) setting["banplayer.type2a"] = "False";
             if (setting["banplayer.floodmsg"] == null) setting["banplayer.floodmsg"] = "True";
+            if (setting["antiafkkick"] == null) setting["antiafkkick"] = "True";
 
             if (setting["remoteserver.wsurl"] == null) setting["remoteserver.wsurl"] = "ws://127.0.0.1";
             if (setting["remoteserver.serverid"] == null) setting["remoteserver.serverid"] = "serverid";
             if (setting["remoteserver.token"] == null) setting["remoteserver.token"] = "token";
+            if (setting["remoteserver.autoconnect"] == null) setting["remoteserver.autoconnect"] = "False";
 
             WriteData();
         }
