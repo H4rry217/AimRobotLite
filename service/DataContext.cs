@@ -3,6 +3,7 @@ using AimRobot.Api.game;
 using AimRobotLite.common;
 using AimRobotLite.network;
 using AimRobotLite.network.opacket;
+using AimRobotLite.network.packet;
 using AimRobotLite.Properties;
 using AimRobotLite.service.robotplugin;
 using AimRobotLite.utils;
@@ -162,7 +163,7 @@ namespace AimRobotLite.service {
                         break;
                     case 2:
                         Robot.GetInstance().SendChat(
-                        $"当前机器人已检测了 {FairPlayers.Count} 名正常玩家并发现 {AbnormalPlayers.Count} 名异常数据玩家。\n" +
+                        $"当前机器人共检查了 {FairPlayers.Count} 名正常玩家并屏蔽了 {AbnormalPlayers.Count} 名异常数据玩家。\n" +
                             $"AIM ROBOT LITE has detected {FairPlayers.Count} fair players and find {AbnormalPlayers.Count} players with abnormal data");
                         break;
                     case 3:
@@ -230,38 +231,49 @@ namespace AimRobotLite.service {
             //检测等待结果队列中的玩家，是否结果已出
             //ISet<long> playerIds = new HashSet<long>();
             foreach (long checkingPlayerId in PlayerCheckingSet) {
-                if (!FairPlayers.Contains(checkingPlayerId)) {
+                if (AbnormalPlayers.Contains(checkingPlayerId)) {
+                    GetPlayerStatInfo(checkingPlayerId, (statData) => {
+                        Robot.GetInstance().SendChat(
+                          $"[{statData.userName}] get banned by robot, reason: Abnormal Player\n" +
+                          $"[{statData.userName}] 被屏蔽出游戏，原因：异常玩家"
+                          );
 
-                    if (AbnormalPlayers.Contains(checkingPlayerId)) {
-                        GetPlayerStatInfo(checkingPlayerId, (statData) => {
-                            Robot.GetInstance().SendChat(
-                              $"[{statData.userName}] will get banned by robot, reason: Abnormal Player\n" +
-                              $"[{statData.userName}] 将会被屏蔽出游戏，原因：异常玩家"
-                              );
+                        _updateBanLog(statData.userName, "异常玩家");
+                    });
 
-                            Robot.GetInstance().BanPlayer(checkingPlayerId);
+                    Robot.GetInstance().SendChat(
+                          $"Player with PID [{checkingPlayerId}] get banned by robot, reason: Abnormal Player\n" +
+                          $"PID为 [{checkingPlayerId}] 的玩家被屏蔽出游戏，原因：异常玩家"
+                          );
+                    Robot.GetInstance().BanPlayer(checkingPlayerId);
+
+                } else if (!FairPlayers.Contains(checkingPlayerId)) {
+
+                    //暂时添加
+                    FairPlayers.Add(checkingPlayerId);
+
+                    foreach (var antiCheat in AntiCheats) {
+                        antiCheat.IsAbnormalPlayer(checkingPlayerId, (isHacker, chs, eng) => {
+                            if (isHacker && !AbnormalPlayers.Contains(checkingPlayerId)) {
+                                FairPlayers.Remove(checkingPlayerId);
+                                AbnormalPlayers.Add(checkingPlayerId);
+
+                                GetPlayerStatInfo(checkingPlayerId, (statData) => {
+                                    Robot.GetInstance().SendChat(
+                                        $"[{statData.userName}] get banned by robot, reason: {eng}\n" +
+                                        $"[{statData.userName}] 被屏蔽出游戏，原因：{chs}"
+                                        );
+
+                                    _updateBanLog(statData.userName, chs);
+                                });
+
+                                Robot.GetInstance().SendChat(
+                                  $"Player with PID [{checkingPlayerId}] get banned by robot, reason: {eng}\n" +
+                                  $"PID为 [{checkingPlayerId}] 的玩家被屏蔽出游戏，原因：{chs}"
+                                  );
+                                Robot.GetInstance().BanPlayer(checkingPlayerId);
+                            }
                         });
-                    } else {
-                        FairPlayers.Add(checkingPlayerId);
-
-                        foreach (var antiCheat in AntiCheats) {
-                            antiCheat.IsAbnormalPlayer(checkingPlayerId, (isHacker, chs, eng) => {
-                                if (isHacker && !AbnormalPlayers.Contains(checkingPlayerId)) {
-                                    FairPlayers.Remove(checkingPlayerId);
-                                    AbnormalPlayers.Add(checkingPlayerId);
-
-                                    GetPlayerStatInfo(checkingPlayerId, (statData) => {
-                                        Robot.GetInstance().SendChat(
-                                          $"[{statData.userName}] will get banned by robot, reason: {eng}\n" +
-                                          $"[{statData.userName}] 将会被屏蔽出游戏，原因：{chs}"
-                                          );
-
-                                        Robot.GetInstance().BanPlayer(checkingPlayerId);
-                                    });
-
-                                }
-                            });
-                        }
                     }
 
                 }
@@ -433,16 +445,23 @@ namespace AimRobotLite.service {
 
                 });
             }
+        }
 
-            if (Program.Winform.checkBox5.Checked) {
-                IntPtr hwnd = GameWindow.GetBfvHandle();
-                WindowsUtils.SendMessage(hwnd, WindowsUtils.WM_MOUSEMOVE, 0, 0);
-            }
+        private void _updateBanLog(string name, string reason) {
+            BanPlayerByNamePacket banLogPacket = new BanPlayerByNamePacket();
+            banLogPacket.playerName = name;
+            banLogPacket.reason = reason;
+
+            ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(banLogPacket);
         }
 
         public void ClearCacheData() {
             PlayerCacheIdMapper.Clear();
             PlayerCacheNameMapper.Clear();
+        }
+
+        public (ISet<long>, ISet<long>) GetCheckPlayers() {
+            return (this.FairPlayers, AbnormalPlayers);
         }
 
         public void PlayerCheck(long playerId) {
@@ -504,6 +523,26 @@ namespace AimRobotLite.service {
                 QueryStatByNameCallbacks.Add(playerName, callBack);
             }
 
+        }
+
+        public PlayerStatInfo GetPlayerStatInfo(long playerId) {
+            if(PlayerInfoDict.ContainsKey(playerId)) {
+                return PlayerInfoDict[playerId];
+            }
+
+            return new PlayerStatInfo();
+        }
+
+        public string GetPlayerName(long playerId) {
+            if (PlayerCacheIdMapper.ContainsKey(playerId)) {
+                return PlayerCacheIdMapper[playerId];
+            }
+
+            if (PlayerInfoDict.ContainsKey(playerId)) {
+                return PlayerInfoDict[playerId].userName;
+            }
+
+            return string.Empty;
         }
 
         public void GetBfbanStatusInfo(long playerId, BfbanCallback callBack) {

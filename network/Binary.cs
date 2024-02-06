@@ -33,5 +33,27 @@ namespace AimRobotLite.network {
             };
         }
 
+        public static byte[] IntegerToBytes(int i) {
+            return new byte[4] {
+                (byte)((i >> 24) & 0xff),
+                (byte)((i >> 16) & 0xff),
+                (byte)((i >> 8) & 0xff),
+                (byte)(i & 0xff)
+            };
+        }
+
+        public static byte[] LongToBytes(long i) {
+            return new byte[8] {
+                (byte)((i >> 56) & 0xff),
+                (byte)((i >> 48) & 0xff),
+                (byte)((i >> 40) & 0xff),
+                (byte)((i >> 32) & 0xff),
+                (byte)((i >> 24) & 0xff),
+                (byte)((i >> 16) & 0xff),
+                (byte)((i >> 8) & 0xff),
+                (byte)(i & 0xff)
+            };
+        }
+
     }
 }

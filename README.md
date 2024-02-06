@@ -33,12 +33,14 @@ ARL不仅提供了基础的事件机制，还提供了包括指令、本地数�
 
 *~~1.X.X版本的[README](_resources/README2.md)~~*
 
-## 相关项目
+## 相关地址
 
+- 一些相关项目的构建地址 [Jenkins](http://ci.harryz.top/)
 - 允许你架设自己的终端，并可以同时管理多个服务器！[AimRobot-server4j](https://github.com/H4rry217/AimRobot-server4j)
 - Kook机器人(需配合AimRobot-server4j使用！！！) [AimRobot-kookbot](https://github.com/H4rry217/AimRobot-kookbot)
 - 编写自己的插件 [（开发API）](https://github.com/H4rry217/AimRobot-api) [（示例插件+图文教程）](https://github.com/H4rry217/ar-example-plugin)
 - 本人编写的功能插件集合 [插件集](https://github.com/H4rry217/arl-thiry-plugins)
+- 远程开服功能的配置教程 [配置复杂上手难度高](https://github.com/H4rry217/bfvrobot-ocr/blob/master/_resources/AUTO_MANAGE.md)
 
 ## 发电地址
 **[爱发电](https://afdian.net/a/h4rry217)**
@@ -48,10 +50,10 @@ ARL不仅提供了基础的事件机制，还提供了包括指令、本地数�
 ## 使用声明 
 * AIM ROBOT LITE (以下简称ARL) 是一个基于Robot Mini的机器人增强程序。ARL程序不会也不打算增加带有权限性质的功能。
 * **ARL程序并无注入游戏等操作功能，原则上不会因为ARL程序本身而被封禁，但仍不保证其安全性，如果你在使用ARL时被封禁了，ARL程序和ARL作者不会对此负责。**
-* ARL程序免费发布给所有人，作者不会以ARL程序的名义收取带有目的性质的收费（但你可以在爱发电上赞助这个程序，不过这个赞助不会让你获得任何东西）。
+* ARL程序免费发布给所有人，你可以随意使用并且不受任何管控，作者不会以ARL程序的名义收取带有目的性质的收费（但你可以在爱发电上赞助这个程序，不过这个赞助不会让你获得任何东西）。
 * ARL程序现已开源（先前已同BFV ROBOT社区相关人士沟通过）。  
 
-__AimRobotLite可执行程序及其后续发布源码采用AGPL3.0协议发布。强烈建议使用者做到以下几点：__  
+__AimRobotLite可执行程序及其后续发布源码采用AGPL3.0协议发布。作者不会对使用者的任何行为做出干涉，但 *建议* 使用者做到以下几点：__  
 * 不在服名带有`[BFV ROBOT]`前缀或 __高度形似__ 类似前缀的服务器（如BEV、BFU、BF5等）使用ARL程序
 * 不与ARL程序本身不支持的形式进行间接接触（包括但不限于使用 Http API、Hook技术、跨进程技术等）
 * 不以ARL程序的名义对他人进行带有目的性质的收费
@@ -65,8 +67,9 @@ __AimRobotLite可执行程序及其后续发布源码采用AGPL3.0协议发布�
 - [x] 屏蔽BFV ROBOT社区全局黑名单(此功未集成于ARL软件本身，而是采用插件形式，[下载地址](https://github.com/H4rry217/arl-thiry-plugins/blob/master/bfvrobot-anticheat/bfvrobot-anticheat.dll))
 - [x] KPM统计（!stat指令）
 - [x] 禁用武器（如二式） 
-- [x] [ARL的QQ机器人](https://github.com/H4rry217/AimRobot-QQBot)（提供源码及程序部署方式，包含如Q群喊话、Q群Ban人等）
+- [x] [ARL的KOOK机器人](https://github.com/H4rry217/AimRobot-kookbot)（提供源码及程序部署方式，包含如喊话、Ban人、查询屏蔽等）
 - [x] [ARL的数据服务端](https://github.com/H4rry217/AimRobot-server4j)（允许你架设自己的服务端，并可以供多个ARL连接来达到多服管理的目的）
+- [x] 远程开服、远程创服等（但配置复杂，上手难度高）
 - [ ] 玩家列表数据（从内存读取玩家列表并显示至ARL）~~已完成但未实装至ARL~~
 - [ ] 更精准的武器数据（从内存读取）~~已完成但未实装至ARL~~
 - [ ] 支持加载Python编写的插件

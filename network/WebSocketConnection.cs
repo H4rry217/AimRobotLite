@@ -4,7 +4,7 @@ using AimRobotLite.network.packet;
 using AimRobot.Api;
 
 namespace AimRobotLite.network {
-    public class WebSocketConnection {
+    public class WebSocketConnection : IConnection {
 
         private WebSocket WebSocketClient;
 
@@ -63,12 +63,16 @@ namespace AimRobotLite.network {
         }
 
         public void SendRemote(DataPacket pk) {
+            pk.Encode();
+            SendBuffer(pk.GetBuffer());
+        }
+
+        public void SendBuffer(byte[] buffer) {
             try {
                 if (IsConnectionAlive()) {
-                    pk.Encode();
-                    WebSocketClient.Send(pk.GetBuffer());
+                    WebSocketClient.Send(buffer);
                 }
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 log.Error(ex);
             }
         }
@@ -88,6 +92,24 @@ namespace AimRobotLite.network {
                 case Protocol.PACKET_COMMAND:
                     var cmd = ((CommandPacket)packet).command;
                     Robot.GetInstance().GetPluginManager().CheckCommand(null, cmd);
+                    break;
+                case Protocol.PACKET_SCREENSHOT:
+                    new Thread(() => {
+                        ((AimRobotLite)Robot.GetInstance()).GetWindow().GetBfvHandle();
+
+                        ScreenshotPacket pk = (ScreenshotPacket)packet;
+                        ScreenshotPacket pak = new ScreenshotPacket();
+                        pak.timestamp = pk.timestamp;
+                        pak.image = ((AimRobotLite)Robot.GetInstance()).GetWindow().GetScreenShot();
+
+                        ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pak);
+                    }).Start();
+
+                    break;
+                case Protocol.PACKET_RUNTASK:
+                    if (Program.Winform.checkBox6.Checked) {
+                        ((AimRobotLite)Robot.GetInstance()).GetWindow().RunTask(((RunTaskPacket)packet).task);
+                    }
                     break;
             }
         }

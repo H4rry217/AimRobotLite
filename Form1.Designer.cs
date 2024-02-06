@@ -55,6 +55,10 @@ namespace AimRobotLite {
             textBox5 = new RichTextBox();
             textBox6 = new RichTextBox();
             tabPage2 = new TabPage();
+            label35 = new Label();
+            label34 = new Label();
+            listBox4 = new ListBox();
+            listBox3 = new ListBox();
             label4 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -92,13 +96,31 @@ namespace AimRobotLite {
             label12 = new Label();
             button2 = new Button();
             tabControl1 = new TabControl();
+            tabPage6 = new TabPage();
+            richTextBox2 = new RichTextBox();
+            label33 = new Label();
+            label32 = new Label();
+            label31 = new Label();
+            label30 = new Label();
+            textBox16 = new TextBox();
+            label29 = new Label();
+            textBox15 = new TextBox();
+            label28 = new Label();
+            label27 = new Label();
+            label26 = new Label();
+            textBox14 = new TextBox();
+            textBox13 = new TextBox();
+            button14 = new Button();
+            checkBox6 = new CheckBox();
             button10 = new Button();
+            timer2 = new System.Windows.Forms.Timer(components);
             tabPage5.SuspendLayout();
             tabPage4.SuspendLayout();
             tabPage3.SuspendLayout();
             tabPage2.SuspendLayout();
             tabPage1.SuspendLayout();
             tabControl1.SuspendLayout();
+            tabPage6.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -370,6 +392,10 @@ namespace AimRobotLite {
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label35);
+            tabPage2.Controls.Add(label34);
+            tabPage2.Controls.Add(listBox4);
+            tabPage2.Controls.Add(listBox3);
             tabPage2.Controls.Add(label4);
             tabPage2.Controls.Add(label2);
             tabPage2.Controls.Add(label3);
@@ -387,6 +413,42 @@ namespace AimRobotLite {
             tabPage2.TabIndex = 1;
             tabPage2.Text = "运行状态";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(757, 7);
+            label35.Name = "label35";
+            label35.Size = new Size(91, 17);
+            label35.TabIndex = 37;
+            label35.Text = "检测异常玩家 0";
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(472, 7);
+            label34.Name = "label34";
+            label34.Size = new Size(91, 17);
+            label34.TabIndex = 36;
+            label34.Text = "检测正常玩家 0";
+            // 
+            // listBox4
+            // 
+            listBox4.FormattingEnabled = true;
+            listBox4.ItemHeight = 17;
+            listBox4.Location = new Point(657, 27);
+            listBox4.Name = "listBox4";
+            listBox4.Size = new Size(288, 463);
+            listBox4.TabIndex = 35;
+            // 
+            // listBox3
+            // 
+            listBox3.FormattingEnabled = true;
+            listBox3.ItemHeight = 17;
+            listBox3.Location = new Point(363, 27);
+            listBox3.Name = "listBox3";
+            listBox3.Size = new Size(288, 463);
+            listBox3.TabIndex = 34;
             // 
             // label4
             // 
@@ -766,11 +828,167 @@ namespace AimRobotLite {
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage5);
+            tabControl1.Controls.Add(tabPage6);
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(960, 537);
             tabControl1.TabIndex = 34;
+            // 
+            // tabPage6
+            // 
+            tabPage6.Controls.Add(richTextBox2);
+            tabPage6.Controls.Add(label33);
+            tabPage6.Controls.Add(label32);
+            tabPage6.Controls.Add(label31);
+            tabPage6.Controls.Add(label30);
+            tabPage6.Controls.Add(textBox16);
+            tabPage6.Controls.Add(label29);
+            tabPage6.Controls.Add(textBox15);
+            tabPage6.Controls.Add(label28);
+            tabPage6.Controls.Add(label27);
+            tabPage6.Controls.Add(label26);
+            tabPage6.Controls.Add(textBox14);
+            tabPage6.Controls.Add(textBox13);
+            tabPage6.Controls.Add(button14);
+            tabPage6.Controls.Add(checkBox6);
+            tabPage6.Location = new Point(4, 26);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new Padding(3);
+            tabPage6.Size = new Size(952, 507);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "自动任务";
+            tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.Location = new Point(624, 11);
+            richTextBox2.MaxLength = 999999999;
+            richTextBox2.Name = "richTextBox2";
+            richTextBox2.ReadOnly = true;
+            richTextBox2.Size = new Size(320, 451);
+            richTextBox2.TabIndex = 14;
+            richTextBox2.Text = "";
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(75, 90);
+            label33.Name = "label33";
+            label33.Size = new Size(73, 17);
+            label33.TabIndex = 13;
+            label33.Text = "Unknown 0";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(6, 90);
+            label32.Name = "label32";
+            label32.Size = new Size(44, 17);
+            label32.TabIndex = 12;
+            label32.Text = "State: ";
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(75, 64);
+            label31.Name = "label31";
+            label31.Size = new Size(40, 17);
+            label31.TabIndex = 11;
+            label31.Text = "None";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(6, 64);
+            label30.Name = "label30";
+            label30.Size = new Size(42, 17);
+            label30.TabIndex = 10;
+            label30.Text = "Task: ";
+            // 
+            // textBox16
+            // 
+            textBox16.Location = new Point(79, 120);
+            textBox16.Name = "textBox16";
+            textBox16.Size = new Size(182, 23);
+            textBox16.TabIndex = 9;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(6, 123);
+            label29.Name = "label29";
+            label29.Size = new Size(63, 17);
+            label29.TabIndex = 8;
+            label29.Text = "启动路径: ";
+            // 
+            // textBox15
+            // 
+            textBox15.Location = new Point(171, 186);
+            textBox15.Name = "textBox15";
+            textBox15.Size = new Size(60, 23);
+            textBox15.TabIndex = 7;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(148, 189);
+            label28.Name = "label28";
+            label28.Size = new Size(17, 17);
+            label28.TabIndex = 6;
+            label28.Text = "×";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(6, 189);
+            label27.Name = "label27";
+            label27.Size = new Size(63, 17);
+            label27.TabIndex = 5;
+            label27.Text = "窗口大小: ";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(6, 156);
+            label26.Name = "label26";
+            label26.Size = new Size(65, 17);
+            label26.TabIndex = 4;
+            label26.Text = "OCR服务: ";
+            // 
+            // textBox14
+            // 
+            textBox14.Location = new Point(79, 186);
+            textBox14.Name = "textBox14";
+            textBox14.Size = new Size(60, 23);
+            textBox14.TabIndex = 3;
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(79, 153);
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(182, 23);
+            textBox13.TabIndex = 2;
+            // 
+            // button14
+            // 
+            button14.Location = new Point(6, 468);
+            button14.Name = "button14";
+            button14.Size = new Size(938, 33);
+            button14.TabIndex = 1;
+            button14.Text = "保存";
+            button14.UseVisualStyleBackColor = true;
+            button14.Click += button14_Click;
+            // 
+            // checkBox6
+            // 
+            checkBox6.AutoSize = true;
+            checkBox6.Location = new Point(6, 6);
+            checkBox6.Name = "checkBox6";
+            checkBox6.Size = new Size(255, 21);
+            checkBox6.TabIndex = 0;
+            checkBox6.Text = "启用自动任务（以下选项仅当启动时有效）";
+            checkBox6.UseVisualStyleBackColor = true;
             // 
             // button10
             // 
@@ -781,6 +999,12 @@ namespace AimRobotLite {
             button10.Text = "日志清屏";
             button10.UseVisualStyleBackColor = true;
             button10.Click += button10_Click;
+            // 
+            // timer2
+            // 
+            timer2.Enabled = true;
+            timer2.Interval = 10000;
+            timer2.Tick += timer2_Tick;
             // 
             // Form1
             // 
@@ -797,6 +1021,7 @@ namespace AimRobotLite {
             Name = "Form1";
             Text = "AimRobot Lite";
             FormClosing += Form1_FormClosing;
+            Load += Form1_Load;
             tabPage5.ResumeLayout(false);
             tabPage5.PerformLayout();
             tabPage4.ResumeLayout(false);
@@ -807,6 +1032,8 @@ namespace AimRobotLite {
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabControl1.ResumeLayout(false);
+            tabPage6.ResumeLayout(false);
+            tabPage6.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -877,6 +1104,27 @@ namespace AimRobotLite {
         private Button button13;
         private CheckBox checkBox3;
         public CheckBox checkBox5;
+        private TabPage tabPage6;
+        private Label label28;
+        private Label label27;
+        private Label label26;
+        private Button button14;
+        private Label label29;
+        public TextBox textBox14;
+        public TextBox textBox15;
+        public TextBox textBox13;
+        private Label label30;
+        public Label label33;
+        private Label label32;
+        public Label label31;
+        private System.Windows.Forms.Timer timer2;
+        public CheckBox checkBox6;
+        public TextBox textBox16;
+        private RichTextBox richTextBox2;
+        private ListBox listBox3;
+        private Label label35;
+        private Label label34;
+        private ListBox listBox4;
     }
 }
 

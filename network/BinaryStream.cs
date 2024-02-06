@@ -133,6 +133,10 @@ namespace AimRobotLite.network {
             this.Put(Binary.ShortToBytes(s));
         }
 
+        public void PutLong(long l) {
+            this.Put(Binary.LongToBytes(l));
+        }
+
         public void PutString(string s, Encoding encoding) {
             byte[] bytes = encoding.GetBytes(s);
             short len = (short)bytes.Length;

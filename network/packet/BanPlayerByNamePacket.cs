@@ -19,7 +19,10 @@ namespace AimRobotLite.network.packet {
         }
 
         public override void Encode() {
-            throw new NotImplementedException();
+            this.Reset();
+            PutByte(GetPacketId());
+            PutString(this.playerName);
+            PutString(this.reason);
         }
 
         public override byte GetPacketId() {

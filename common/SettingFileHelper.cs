@@ -37,6 +37,12 @@ namespace AimRobotLite.common {
             if (setting["remoteserver.token"] == null) setting["remoteserver.token"] = "token";
             if (setting["remoteserver.autoconnect"] == null) setting["remoteserver.autoconnect"] = "False";
 
+            if (setting["manage.enable"] == null) setting["manage.enable"] = "False";
+            if (setting["manage.runpath"] == null) setting["manage.runpath"] = "steam://rungameid/1238810";
+            if (setting["manage.ocrurl"] == null) setting["manage.ocrurl"] = "http://127.0.0.1:11452";
+            if (setting["manage.screenw"] == null) setting["manage.screenw"] = "1500";
+            if (setting["manage.screenh"] == null) setting["manage.screenh"] = "1000";
+
             WriteData();
         }
 

@@ -5,10 +5,10 @@ using AimRobotLite.network.opacket;
 using AimRobotLite.network.opakcet;
 using AimRobotLite.plugin;
 using AimRobotLite.service;
+using AimRobotLite.service.automanage;
 using log4net;
 
-namespace AimRobotLite
-{
+namespace AimRobotLite{
     public class AimRobotLite : Robot {
 
         private RobotLogger logger;
@@ -22,6 +22,8 @@ namespace AimRobotLite
         private IGameContext GameContext;
 
         private string CurrentDir;
+
+        private GameWindow GameWindow;
 
         public static void run() {
             Init(new AimRobotLite());
@@ -38,6 +40,7 @@ namespace AimRobotLite
             WebsocketConnection = new WebSocketConnection();
 
             GameContext = new DataContext(RobotConnection);
+            GameWindow = new GameWindow(int.Parse(Program.Winform.textBox14.Text), int.Parse(Program.Winform.textBox15.Text));
 
             CurrentDir = Directory.GetCurrentDirectory();
             string pluginsDirectory = Path.Combine(CurrentDir, "plugins");
@@ -71,6 +74,10 @@ namespace AimRobotLite
 
         public WebSocketConnection GetWebSocketConnection() {
             return WebsocketConnection;
+        }
+
+        public GameWindow GetWindow() {
+            return GameWindow;
         }
 
         public void TryConnectRemoteServer() {
@@ -108,7 +115,14 @@ namespace AimRobotLite
                 }
 
                 BanPlayer(playerId);
+
+                network.packet.BanPlayerByNamePacket banLogPacket = new network.packet.BanPlayerByNamePacket();
+                banLogPacket.playerName = name;
+                banLogPacket.reason = reason;
+
+                GetWebSocketConnection().SendRemote(banLogPacket);
             }
+            
         }
 
         public override void UnBanPlayer(long playerId) {
@@ -156,6 +170,10 @@ namespace AimRobotLite
             JoinGamePacket packet = new JoinGamePacket();
             packet.gameId = gameId;
             RobotConnection.SendPacket(packet);
+        }
+
+        public override IConnection GetConnection() {
+            return this.WebsocketConnection;
         }
     }
 }

@@ -94,17 +94,21 @@ namespace AimRobotLite.service.robotplugin
         [EventHandler]
         public void OnAntiFloodMessage(PlayerChatEvent chatEvent) {
 
+            bool itself = string.Equals(chatEvent.speaker, Robot.GetInstance().GetGameContext().GetCurrentPlayerName());
+
             /*********************************************/
-            ChatEventPacket pk = new ChatEventPacket();
-            pk.ev = chatEvent;
-            ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
+            if (!itself) {
+                ChatEventPacket pk = new ChatEventPacket();
+                pk.ev = chatEvent;
+                ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
+            }
             /*********************************************/
 
 
             long curTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             if (Program.Winform.checkBox4.Checked) {
-                if (!string.Equals(chatEvent.speaker, Robot.GetInstance().GetGameContext().GetCurrentPlayerName())) {
+                if (!itself) {
 
                     if (PLAYER_CHAT_TIMESTAMP.TryGetValue(chatEvent.speaker, out long lastChat)) {
                         //如果发言间隔小于1秒
@@ -116,7 +120,7 @@ namespace AimRobotLite.service.robotplugin
 
                                 if (newChatCount >= 5) {
                                     PLAYER_CHAT_COUNT[chatEvent.speaker] = 0;
-                                    Robot.GetInstance().BanPlayer(chatEvent.speaker);
+                                    Robot.GetInstance().BanPlayer(chatEvent.speaker, "刷屏");
                                     Robot.GetInstance().SendChat($"\n\n\nPlayer [{chatEvent.speaker}] is flooding the chat box and will get banned. \n玩家 [{chatEvent.speaker}] 正在刷屏且将会被服务器屏蔽。");
                                     Robot.GetInstance().SendChat($"\n\n\nPlayer [{chatEvent.speaker}] is flooding the chat box and will get banned. \n玩家 [{chatEvent.speaker}] 正在刷屏且将会被服务器屏蔽。");
                                 }
@@ -132,6 +136,7 @@ namespace AimRobotLite.service.robotplugin
                     }
 
                     PLAYER_CHAT_TIMESTAMP[chatEvent.speaker] = curTime;
+                    
                 }
             }
         }

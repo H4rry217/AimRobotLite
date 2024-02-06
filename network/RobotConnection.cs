@@ -117,15 +117,18 @@ namespace AimRobotLite.network{
 					} else if (eventType == "onChatMessage") {
 						log.Info($"ChatEvent: {firstPart} => {secPart}");
 
-						PlayerChatEvent playerChatEvent = new PlayerChatEvent();
-						playerChatEvent.speaker = firstPart;
-						playerChatEvent.message = secPart;
+						if (!secPart.StartsWith("ID_M_COMMOROSE")) {
 
-                        Robot.GetInstance().GetPluginManager().CallEvent(playerChatEvent);
+							PlayerChatEvent playerChatEvent = new PlayerChatEvent();
+							playerChatEvent.speaker = firstPart;
+							playerChatEvent.message = secPart;
 
-                        //dirty work
-                        if (((DataContext)Robot.GetInstance().GetGameContext())._CurrentPlayerProcDelegate != null) {
-                            ((DataContext)Robot.GetInstance().GetGameContext())._CurrentPlayerProcDelegate(playerChatEvent.message, playerChatEvent.speaker);
+							Robot.GetInstance().GetPluginManager().CallEvent(playerChatEvent);
+
+							//dirty work
+							if (((DataContext)Robot.GetInstance().GetGameContext())._CurrentPlayerProcDelegate != null) {
+								((DataContext)Robot.GetInstance().GetGameContext())._CurrentPlayerProcDelegate(playerChatEvent.message, playerChatEvent.speaker);
+							}
 						}
 
                     }

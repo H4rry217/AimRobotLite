@@ -9,6 +9,7 @@ using AimRobotLite.plugin;
 using AimRobotLite.Properties;
 using AimRobotLite.service;
 using AimRobotLite.service.robotplugin;
+using AimRobotLite.utils;
 using log4net;
 using log4net.Core;
 using System;
@@ -53,6 +54,13 @@ namespace AimRobotLite {
             textBox10.Text = settingData["setting"]["remoteserver.serverid"];
             textBox11.Text = settingData["setting"]["remoteserver.token"];
             checkBox3.Checked = bool.Parse(settingData["setting"]["remoteserver.autoconnect"]);
+
+            /*******************/
+            checkBox6.Checked = bool.Parse(settingData["setting"]["manage.enable"]);
+            textBox16.Text = settingData["setting"]["manage.runpath"];
+            textBox13.Text = settingData["setting"]["manage.ocrurl"];
+            textBox14.Text = settingData["setting"]["manage.screenw"];
+            textBox15.Text = settingData["setting"]["manage.screenh"];
 
             /*******************/
             richTextBox1.SelectionColor = Color.DarkBlue;
@@ -147,6 +155,15 @@ namespace AimRobotLite {
                 );
 
             richTextBox1.ScrollToCaret();
+        }
+
+        public void TaskConsoleTextBoxAppend(string s) {
+            string formatTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            richTextBox2.AppendText(
+                $"{formatTime}  --- {s}\n"
+                );
+
+            richTextBox2.ScrollToCaret();
         }
 
         public void KillLogTextBoxAppend(string s) {
@@ -263,6 +280,7 @@ namespace AimRobotLite {
 
         private void button10_Click(object sender, EventArgs e) {
             richTextBox1.Text = "";
+            richTextBox2.Text = "";
             textBox5.Text = "";
             textBox6.Text = "";
         }
@@ -291,6 +309,84 @@ namespace AimRobotLite {
 
         private void button13_Click(object sender, EventArgs e) {
             Robot.GetInstance().UnBanPlayer(textBox7.Text);
+        }
+
+        private void button14_Click(object sender, EventArgs e) {
+            var settingData = SettingFileHelper.GetData();
+            settingData["setting"]["manage.enable"] = checkBox6.Checked.ToString();
+
+            settingData["setting"]["manage.runpath"] = textBox16.Text;
+            settingData["setting"]["manage.ocrurl"] = textBox13.Text;
+            settingData["setting"]["manage.screenw"] = textBox14.Text;
+            settingData["setting"]["manage.screenh"] = textBox15.Text;
+
+            SettingFileHelper.WriteData();
+            MessageBox.Show(this, "[自动任务] 已保存设置");
+        }
+
+        private void Form1_Load(object sender, EventArgs e) {
+
+        }
+
+        private int prevFairCount = 0;
+        private int prevAbnormalFairCount = 0;
+
+        private void timer2_Tick(object sender, EventArgs e) {
+            if (checkBox6.Checked) {
+                InfoUpdatePacket pk = new InfoUpdatePacket();
+                pk.timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                pk.info = ((AimRobotLite)Robot.GetInstance()).GetWindow().GetWindowInfo();
+
+                label31.Text = pk.info.RunTask.ToString();
+                label33.Text = pk.info.State.ToString() + " " + pk.info.ErrorCount;
+
+                ((AimRobotLite)Robot.GetInstance()).GetWebSocketConnection().SendRemote(pk);
+            }
+
+            if (checkBox5.Checked) {
+                IntPtr hwnd = ((AimRobotLite)Robot.GetInstance()).GetWindow().GetBfvHandle();
+                WindowsUtils.SendMessage(hwnd, WindowsUtils.WM_MOUSEMOVE, 0, 0);
+            }
+
+            if (textBox5.Text.Length > textBox5.MaxLength / 2) {
+                textBox5.Text = "";
+            }
+
+            if (textBox6.Text.Length > textBox6.MaxLength / 2) {
+                textBox6.Text = "";
+            }
+
+            if (richTextBox1.Text.Length > richTextBox1.MaxLength / 2) {
+                richTextBox1.Text = "";
+            }
+
+            if (richTextBox2.Text.Length > richTextBox2.MaxLength / 2) {
+                richTextBox2.Text = "";
+            }
+
+            var context = ((DataContext)((AimRobotLite)Robot.GetInstance()).GetGameContext());
+            var checks = context.GetCheckPlayers();
+
+            if (checks.Item1.Count != prevFairCount) {
+                listBox3.Items.Clear();
+                foreach (var id in checks.Item1) {
+                    listBox3.Items.Add($"{context.GetPlayerStatInfo(id).userName}({id})");
+                }
+
+                label34.Text = $"检测正常玩家 {checks.Item1.Count}";
+            }
+
+            if (checks.Item2.Count != prevAbnormalFairCount) {
+                listBox4.Items.Clear();
+                foreach (var id in checks.Item2) {
+                    listBox4.Items.Add($"{context.GetPlayerStatInfo(id).userName}({id})");
+                }
+
+                label35.Text = $"检测异常玩家 {checks.Item2.Count}";
+            }
+
+            prevFairCount = checks.Item1.Count;
+            prevAbnormalFairCount = checks.Item2.Count;
         }
     }
 }
