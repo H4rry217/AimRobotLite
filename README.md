@@ -35,10 +35,10 @@ ARL不仅提供了基础的事件机制，还提供了包括指令、本地数�
 
 ## 相关地址
 
-- 一些相关项目的构建地址 [Jenkins](http://ci.harryz.top/)
+- **ARL的来源历史以及部分问题的QA** [Introduce](_resources/introduce.md)
 - 允许你架设自己的终端，并可以同时管理多个服务器！[AimRobot-server4j](https://github.com/H4rry217/AimRobot-server4j)
 - Kook机器人(需配合AimRobot-server4j使用！！！) [AimRobot-kookbot](https://github.com/H4rry217/AimRobot-kookbot)
-- 编写自己的插件 [（开发API）](https://github.com/H4rry217/AimRobot-api) [（示例插件+图文教程）](https://github.com/H4rry217/ar-example-plugin)
+- **编写自己的插件** [（开发API）](https://github.com/H4rry217/AimRobot-api) [（示例插件+图文教程）](https://github.com/H4rry217/ar-example-plugin)
 - 本人编写的功能插件集合 [插件集](https://github.com/H4rry217/arl-thiry-plugins)
 - 远程开服功能的配置教程 [配置复杂上手难度高](https://github.com/H4rry217/bfvrobot-ocr/blob/master/_resources/AUTO_MANAGE.md)
 

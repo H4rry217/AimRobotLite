@@ -84,6 +84,21 @@ namespace AimRobotLite.service.robotplugin
                     Robot.GetInstance().KickPlayer(playerEvent.killerName);
                 }
             }
+
+            if (Program.Winform.checkBox7.Checked && playerEvent.killerBy.Equals("MiniMadsen")) {
+                if (Robot.GetInstance().GetGameContext().GetCurrentPlayerName().Equals(playerEvent.killerName)) {
+                    AimRobotDefaultPlugin.instance.GetLogger().Warn("arl exit reason: curret player using madsen");
+                    Application.Exit();
+                    return;
+                } else {
+                    Robot.GetInstance().SendChat(
+                        $"[{playerEvent.killerName}] will get banned by robot, reason: forbidden weapon madsen\n" +
+                        $"[{playerEvent.killerName}] 将会被踢出游戏，原因：使用禁止的武器（麦德森机枪）"
+                        );
+                    Robot.GetInstance().KickPlayer(playerEvent.killerName);
+                }
+            }
+
         }
 
         /***************************************************/

@@ -145,7 +145,16 @@ namespace AimRobotLite.service.automanage {
             Thread.Sleep(3000);
 
             WindowsUtils.SetForegroundWindow(this.hwndPtr);
-            WindowsUtils.SetWindowPos(this.hwndPtr, IntPtr.Zero, 0, 0, int.Parse(Program.Winform.textBox14.Text), int.Parse(Program.Winform.textBox15.Text), WindowsUtils.SWP_SHOWWINDOW);
+            bool noresize = int.Parse(Program.Winform.textBox14.Text) == 0 && int.Parse(Program.Winform.textBox15.Text) == 0;
+
+            WindowsUtils.SetWindowPos(
+                this.hwndPtr, 
+                IntPtr.Zero,
+                0, 0, 
+                int.Parse(Program.Winform.textBox14.Text),
+                int.Parse(Program.Winform.textBox15.Text),
+                noresize? WindowsUtils.SWP_NOSIZE: WindowsUtils.SWP_SHOWWINDOW
+                );
 
             Bitmap bitMap = GraphicsUtils.GetScreenShot(this.hwndPtr);
 

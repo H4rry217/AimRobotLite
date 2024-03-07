@@ -29,6 +29,7 @@ namespace AimRobotLite.common {
             if (setting["broadcast.rocketkill"] == null) setting["broadcast.rocketkill"] = "True";
 
             if (setting["banplayer.type2a"] == null) setting["banplayer.type2a"] = "False";
+            if (setting["banplayer.madsen"] == null) setting["banplayer.madsen"] = "False";
             if (setting["banplayer.floodmsg"] == null) setting["banplayer.floodmsg"] = "True";
             if (setting["antiafkkick"] == null) setting["antiafkkick"] = "True";
 

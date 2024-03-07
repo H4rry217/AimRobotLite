@@ -46,6 +46,7 @@ namespace AimRobotLite {
             textBox4.Text = settingData["setting"]["broadcast.content4"];
 
             checkBox1.Checked = bool.Parse(settingData["setting"]["banplayer.type2a"]);
+            checkBox7.Checked = bool.Parse(settingData["setting"]["banplayer.madsen"]);
             checkBox2.Checked = bool.Parse(settingData["setting"]["broadcast.rocketkill"]);
             checkBox4.Checked = bool.Parse(settingData["setting"]["banplayer.floodmsg"]);
             checkBox5.Checked = bool.Parse(settingData["setting"]["antiafkkick"]);
@@ -83,6 +84,7 @@ namespace AimRobotLite {
             settingData["setting"]["broadcast.content4"] = textBox4.Text;
 
             settingData["setting"]["banplayer.type2a"] = checkBox1.Checked.ToString();
+            settingData["setting"]["banplayer.madsen"] = checkBox7.Checked.ToString();
 
             settingData["setting"]["broadcast.rocketkill"] = checkBox2.Checked.ToString();
 

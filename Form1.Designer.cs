@@ -71,6 +71,7 @@ namespace AimRobotLite {
             label9 = new Label();
             button6 = new Button();
             tabPage1 = new TabPage();
+            checkBox7 = new CheckBox();
             checkBox5 = new CheckBox();
             checkBox3 = new CheckBox();
             button13 = new Button();
@@ -563,6 +564,7 @@ namespace AimRobotLite {
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(checkBox7);
             tabPage1.Controls.Add(checkBox5);
             tabPage1.Controls.Add(checkBox3);
             tabPage1.Controls.Add(button13);
@@ -594,6 +596,16 @@ namespace AimRobotLite {
             tabPage1.TabIndex = 0;
             tabPage1.Text = "基础功能";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            checkBox7.AutoSize = true;
+            checkBox7.Location = new Point(298, 305);
+            checkBox7.Name = "checkBox7";
+            checkBox7.Size = new Size(87, 21);
+            checkBox7.TabIndex = 39;
+            checkBox7.Text = "屏蔽麦德森";
+            checkBox7.UseVisualStyleBackColor = true;
             // 
             // checkBox5
             // 
@@ -1125,6 +1137,7 @@ namespace AimRobotLite {
         private Label label35;
         private Label label34;
         private ListBox listBox4;
+        public CheckBox checkBox7;
     }
 }
 

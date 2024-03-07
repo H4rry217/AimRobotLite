@@ -123,7 +123,7 @@ namespace AimRobotLite.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2.0.6.
+        ///   Looks up a localized string similar to 2.0.7.
         /// </summary>
         internal static string version {
             get {
